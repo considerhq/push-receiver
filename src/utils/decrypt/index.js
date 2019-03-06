@@ -1,5 +1,5 @@
-const crypto = require('crypto');
 const ece = require('http_ece');
+const createECDH = require('./createECDH');
 
 module.exports = decrypt;
 
@@ -9,7 +9,7 @@ function decrypt(object, keys) {
   if (!cryptoKey) throw new Error('crypto-key is missing');
   const salt = object.appData.find(item => item.key === 'encryption');
   if (!salt) throw new Error('salt is missing');
-  const dh = crypto.createECDH('prime256v1');
+  const dh = createECDH('prime256v1');
   dh.setPrivateKey(keys.privateKey, 'base64');
   const params = {
     version    : 'aesgcm',
